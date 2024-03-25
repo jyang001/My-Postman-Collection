@@ -1,0 +1,12 @@
+Postman
+
+HTTP Requests
+Variables
+ -Scope: Global, Environment, Collection
+Query Parameters
+ -add argument to http request
+ eg) /books?type=crime
+Multiple Query Parameters
+ eg) /books?type=crime&limit=2
+Path Variable
+ eg) :bookId
