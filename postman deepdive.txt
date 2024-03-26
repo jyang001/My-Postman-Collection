@@ -1,0 +1,59 @@
+Postman
+
+Client-Server Comm
+_____________________
+Client: Postman
+Server: API
+
+
+HTTP Requests
+_____________________
+Variables
+ -Scope: Global, Environment, Collection
+
+Query Parameters
+ -add argument to http request
+ -filter response
+ -(K-V) pairs delimited by &
+ -URL encoded
+ eg) /books?type=crime
+ eg) /books?type=crime&limit=2
+
+Path Variable
+ -Path is info after hostname
+ -Similar to Directory
+ eg) http://www.yelp.com/biz/jupiter-berkeley#query:jupiters
+ eg) :bookId
+
+Fragment
+ -Specify a sub-resource (section on a page)
+ -Browser will jump to id of element
+ eg)http://en.wikipedia.org/wiki/URI_scheme#Examples
+
+Post Requets
+ -Usually Require Registration in Body     
+  (Validate Sender)
+
+Headers
+_____________________
+Authorization
+ -Helpers for Authenticating Requests
+ -Added on Header with Authorization
+ eg) Bearer Token
+
+ -bug: may not always auto-add to Header
+
+ -How to set a Bearer Token in Postman
+  https://apidog.com/articles/how-to-set-bearer-token-in-postman/
+
+Body
+________________________
+Json Values usually required for POST Requests
+ 
+
+
+
+
+
+
+
