@@ -34,6 +34,7 @@ Post Requets
  -Usually Require Registration in Body     
   (Validate Sender)
 
+
 Headers
 _____________________
 Authorization
@@ -46,10 +47,10 @@ Authorization
  -How to set a Bearer Token in Postman
   https://apidog.com/articles/how-to-set-bearer-token-in-postman/
 
+
 Body
 ________________________
 Json Values usually required for POST Requests
- 
 
 
 
