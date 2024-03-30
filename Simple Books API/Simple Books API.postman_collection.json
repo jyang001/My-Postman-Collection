@@ -8,12 +8,35 @@
 	"item": [
 		{
 			"name": "Status",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//parse response\r",
+							"const res = pm.response.json()\r",
+							"console.log(res.status)\r",
+							"// console.log(res['status'])\r",
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Status should be OK\", () => {\r",
+							"    pm.expect(res.status).to.eql(\"OK\");\r",
+							"})\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "https://{{baseUrl}}/status",
-					"protocol": "https",
+					"raw": "{{baseUrl}}/status",
 					"host": [
 						"{{baseUrl}}"
 					],
@@ -26,6 +49,20 @@
 		},
 		{
 			"name": "Access Token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", () => {\r",
+							"    pm.response.to.have.status(201)\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -39,8 +76,7 @@
 					}
 				},
 				"url": {
-					"raw": "https://{{baseUrl}}/api-clients",
-					"protocol": "https",
+					"raw": "{{baseUrl}}/api-clients",
 					"host": [
 						"{{baseUrl}}"
 					],
@@ -52,7 +88,24 @@
 			"response": []
 		},
 		{
-			"name": "Order Books",
+			"name": "Order Book",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", () => {\r",
+							"    pm.response.to.have.status(201)\r",
+							"});\r",
+							"\r",
+							"const res = pm.response.json();\r",
+							"pm.collectionVariables.set(\"orderId\", res.orderId);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
 			"request": {
 				"auth": {
 					"type": "bearer",
@@ -74,7 +127,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"bookId\" : 2,\r\n    \"customerName\" : \"John\"\r\n}",
+					"raw": "{\r\n    \"bookId\" : 1,\r\n    \"customerName\" : \"{{$randomFullName}}\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -82,8 +135,7 @@
 					}
 				},
 				"url": {
-					"raw": "https://{{baseUrl}}/orders/",
-					"protocol": "https",
+					"raw": "{{baseUrl}}/orders/",
 					"host": [
 						"{{baseUrl}}"
 					],
@@ -96,13 +148,154 @@
 			"response": []
 		},
 		{
+			"name": "Get Book Orders",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", () => {\r",
+							"    pm.response.to.have.status(200)\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{accessToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer f347d1c8b5c00aa7b7c068111e7078d3f3f54147d923dd049ea3cbe53c92f2ab",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/orders/",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"orders",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Book Order",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{accessToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer f347d1c8b5c00aa7b7c068111e7078d3f3f54147d923dd049ea3cbe53c92f2ab",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/orders/:orderId",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"orders",
+						":orderId"
+					],
+					"variable": [
+						{
+							"key": "orderId",
+							"value": "E_aRLTAQLokOtLvZSEe9v"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Get Books",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", () => {\r",
+							"    pm.response.to.have.status(200)\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "https://{{baseUrl}}/books",
-					"protocol": "https",
+					"raw": "{{baseUrl}}/books",
 					"host": [
 						"{{baseUrl}}"
 					],
@@ -115,12 +308,46 @@
 		},
 		{
 			"name": "Get Books by Type",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", () => {\r",
+							"    pm.response.to.have.status(200)\r",
+							"});\r",
+							"\r",
+							"const res = pm.response.json();\r",
+							"\r",
+							"// get first avaiable book from res and set as globla var 'bookId'\r",
+							"const bookList = res.filter((book) => book.available === true);\r",
+							"const book = bookList[0];\r",
+							"\r",
+							"pm.test(\"Book Found\", () => {\r",
+							"    pm.expect(book).to.be.an('object');\r",
+							"    pm.expect(book.available).to.be.true;\r",
+							"    pm.expect(book.type).to.eql('non-fiction');\r",
+							"});\r",
+							"\r",
+							"if(book) {\r",
+							"    //pm.globals.set(\"bookId\", bookList[0].id);\r",
+							"    //pm.environment.set(\"bookId\", bookList[0].id);\r",
+							"    pm.collectionVariables.set(\"bookId\", bookList[0].id);\r",
+							"}\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "https://{{baseUrl}}/books?type=fiction",
-					"protocol": "https",
+					"raw": "{{baseUrl}}/books?type=non-fiction",
 					"host": [
 						"{{baseUrl}}"
 					],
@@ -130,7 +357,7 @@
 					"query": [
 						{
 							"key": "type",
-							"value": "fiction"
+							"value": "non-fiction"
 						}
 					]
 				}
@@ -139,12 +366,34 @@
 		},
 		{
 			"name": "Get Books by Id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", () => {\r",
+							"    pm.response.to.have.status(200)\r",
+							"});\r",
+							"\r",
+							"const res = pm.response.json();\r",
+							"\r",
+							"pm.test(\"Book is in Stock\", () => {\r",
+							"    // pm.expect(res['current-stock']).to.be.above(0);\r",
+							"    pm.expect(res['current-stock'] > 0)\r",
+							"})\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "https://{{baseUrl}}/books/:bookId",
-					"protocol": "https",
+					"raw": "{{baseUrl}}/books/:bookId",
 					"host": [
 						"{{baseUrl}}"
 					],
@@ -186,12 +435,20 @@
 	"variable": [
 		{
 			"key": "baseUrl",
-			"value": "simple-books-api.glitch.me"
+			"value": "https://simple-books-api.glitch.me"
 		},
 		{
 			"key": "accessToken",
-			"value": "f347d1c8b5c00aa7b7c068111e7078d3f3f54147d923dd049ea3cbe53c92f2ab",
+			"value": "",
 			"type": "string"
+		},
+		{
+			"key": "bookId",
+			"value": ""
+		},
+		{
+			"key": "orderId",
+			"value": ""
 		}
 	]
 }
