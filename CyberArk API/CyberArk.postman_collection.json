@@ -1,0 +1,349 @@
+{
+	"info": {
+		"_postman_id": "96407334-51bc-49cf-8aa9-6eb53d4f9040",
+		"name": "CyberArk",
+		"description": "CyberArk API calls for testing frequently used CyberArk endpoints",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "8810435"
+	},
+	"item": [
+		{
+			"name": "CA_Auth",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let jsonData = JSON.parse(responseBody);\r",
+							"pm.collectionVariables.set(\"token\", jsonData);\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "username",
+							"value": "",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{baseUrl}}/Auth/cyberark/logon",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"Auth",
+						"cyberark",
+						"logon"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Safe",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{baseUrl}}/safes/:safeName",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"safes",
+						":safeName"
+					],
+					"variable": [
+						{
+							"key": "safeName",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add Safe",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{token}}",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"SafeName\": \"\",\r\n    \"Description\": \"\",\r\n    \"OLACEnabled\": false,\r\n    \"ManagingCPM\": \"PasswordManager\",\r\n    \"NumberOfDaysRetention\": 7\r\n}"
+				},
+				"url": {
+					"raw": "{{baseUrl}}/safes",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"safes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Safe Member",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{baseUrl}}/safes/:safeName/Members",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"safes",
+						":safeName",
+						"Members"
+					],
+					"variable": [
+						{
+							"key": "safeName",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "AddSafeMember",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"content-type": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{token}}",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"memberName\": \"\",\r\n    \"searchIn\": \"\",\r\n    \"permissions\":\r\n    {\r\n        \"useAccounts\" : true,\r\n        \"retrieveAccounts\" : true,\r\n        \"listAccounts\": true,\r\n        \"updateAccountContent\": true,\r\n        \"updateAccountProperties\": true\r\n    }\r\n}"
+				},
+				"url": {
+					"raw": "{{baseUrl}}/passwordvault/api/safes/:safeName/Members/",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"passwordvault",
+						"api",
+						"safes",
+						":safeName",
+						"Members",
+						""
+					],
+					"variable": [
+						{
+							"key": "safeName",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Account",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{baseUrl}}/accounts?search=&searchType=contains",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"accounts"
+					],
+					"query": [
+						{
+							"key": "search",
+							"value": ""
+						},
+						{
+							"key": "searchType",
+							"value": "contains"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "AddAccount",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"content-type": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{token}}",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"address\" : \"\", \r\n    \"userName\" : \"\",\r\n    \"platformId\" : \"\",\r\n    \"safeName\" : \"\",\r\n    \"secretType\" : \"password\",\r\n    \"platformAccountProperties\" : {\r\n        \"LogonDomain\" : \"\"\r\n    },\r\n    \"secretManagement\" : {\r\n        \"automaticManagementEnabled\": \"true\"\r\n    }\r\n}"
+				},
+				"url": {
+					"raw": "{{baseUrl}}/accounts",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"accounts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Accounts in Safe",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{baseUrl}}/accounts?filter=",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"accounts"
+					],
+					"query": [
+						{
+							"key": null,
+							"value": "\"safeName eq \" + safeName;",
+							"disabled": true
+						},
+						{
+							"key": "filter",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "",
+			"type": "default"
+		},
+		{
+			"key": "token",
+			"value": "",
+			"type": "default"
+		}
+	]
+}
